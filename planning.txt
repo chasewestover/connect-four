@@ -1,0 +1,15 @@
+outline
+
+
+createBoard(h,w)
+
+color = red;
+
+while( !winner )
+    addEventListener(buttons)
+    turn(color)
+    updateBoard()
+    checkWinner()
+
+displayWinner()
+
