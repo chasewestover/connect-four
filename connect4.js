@@ -11,20 +11,18 @@ const WIDTH = 7;
 const HEIGHT = 6;
 
 let currPlayer = "red"; // active player: 1 or 2
-let board = []; // array of rows, each row is array of cells  (board[y][x])
+let board; // array of rows, each row is array of cells  (board[y][x])
 
 /** makeBoard: create in-JS board structure:
  *    board = array of rows, each row is array of cells  (board[y][x])
  */
 
-function makeBoard(w,h) {
+function makeBoard() {
   // TODO: set "board" to empty HEIGHT x WIDTH matrix array
-  let column = Array(h);
-  column.fill(null);
-  let row = Array(w);
-  row.fill(column);
-
-
+  let row = Array(WIDTH);
+  row.fill(null);
+  board = Array(HEIGHT);
+  board.fill(row);
 }
 
 
@@ -75,9 +73,36 @@ function makeHtmlBoard() {
 
 /** findSpotForCol: given column x, return top empty y (null if filled) */
 
+//
+function
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function findSpotForCol(x) {
-  // TODO: write the real version of this, rather than always returning 0
-  return 0;
+  //iterate over board object, backwards
+  for(let row=board.length-1; row>=0; row--){
+    if(board[row][x] === null){
+      board[row][x] = 1;
+      return row;
+    }
+  }
+  return null;
 }
 
 /** placeInTable: update DOM to place piece into HTML table of board */
@@ -97,12 +122,23 @@ function endGame(msg) {
 
 /** handleClick: handle click of column top to play piece */
 
+function checkBoardFull(){
+  for(let row of board){
+    //if any element is null, return false
+    if(row.some( (elem) => elem === null )){
+      return false;
+    }
+  }
+  return true;
+}
+
 function handleClick(evt) {
   // get x from ID of clicked cell
   var x = +evt.target.id;
 
   // get next spot in column (if none, ignore click)
   var y = findSpotForCol(x);
+  //whole column is full
   if (y === null) {
     return;
   }
@@ -110,6 +146,11 @@ function handleClick(evt) {
   // place piece in board and add to HTML table
   // TODO: add line to update in-memory board
   placeInTable(y, x);
+
+  //check for board full
+  if( checkBoardFull() ) {
+    return endGame('Tie!');
+  }
 
   // check for win
   if (checkForWin()) {
@@ -121,6 +162,12 @@ function handleClick(evt) {
 
   // switch players
   // TODO: switch currPlayer 1 <-> 2
+  if(currPlayer === "red"){
+    currPlayer = "blue";
+  }
+  else {
+    currPlayer = "red";
+  }
 }
 
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
