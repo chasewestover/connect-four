@@ -11,7 +11,7 @@ const WIDTH = 7;
 const HEIGHT = 6;
 
 let currPlayer = "red"; // active player: 1 or 2
-let board; // array of rows, each row is array of cells  (board[y][x])
+let board = []; // array of rows, each row is array of cells  (board[y][x])
 
 /** makeBoard: create in-JS board structure:
  *    board = array of rows, each row is array of cells  (board[y][x])
@@ -19,10 +19,20 @@ let board; // array of rows, each row is array of cells  (board[y][x])
 
 function makeBoard() {
   // TODO: set "board" to empty HEIGHT x WIDTH matrix array
-  let row = Array(WIDTH);
-  row.fill(null);
-  board = Array(HEIGHT);
-  board.fill(row);
+  // let row = Array(WIDTH);
+  // row.fill(null);
+  // board = Array(HEIGHT);
+  // board.fill(row);
+
+for (let row =0; row < HEIGHT; row++) {
+  let tempArr = [];
+  for (let col = 0; col < WIDTH; col++) {
+    tempArr.push(null)
+  }
+  board.push(tempArr);
+}
+
+
 }
 
 
@@ -73,32 +83,11 @@ function makeHtmlBoard() {
 
 /** findSpotForCol: given column x, return top empty y (null if filled) */
 
-//
-function
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function findSpotForCol(x) {
   //iterate over board object, backwards
   for(let row=board.length-1; row>=0; row--){
     if(board[row][x] === null){
-      board[row][x] = 1;
+      board[row][x] = currPlayer;
       return row;
     }
   }
@@ -197,9 +186,9 @@ function checkForWin() {
       // [ [y, x], [y, x], [y, x], [y, x] ]
 
       let horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
-      let vert;
-      let diagDL;
-      let diagDR;
+      let vert = [[y, x], [y+1, x], [y+2, x], [y+3, x]];
+      let diagDL = [[y, x], [y+1, x-1], [y+2, x-2], [y+3, x-3]];
+      let diagDR = [[y, x], [y+1, x+1], [y+2, x+2], [y+3, x+3]];
 
       // find winner (only checking each win-possibility as needed)
       if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
