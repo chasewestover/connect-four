@@ -32,10 +32,15 @@ for (let row =0; row < HEIGHT; row++) {
   board.push(tempArr);
 }
 
-
 }
 
-
+function clearBoard(){
+  board = [];
+  makeBoard();
+  const htmlBoard = document.getElementById("board");
+  htmlBoard.innerHTML = "";
+  makeHtmlBoard();
+}
 
 /** makeHtmlBoard: make HTML table and row of column tops. */
 
@@ -107,6 +112,8 @@ function placeInTable(y, x) {
 
 function endGame(msg) {
   // TODO: pop up alert message
+  clearBoard();
+  alert(msg)
 }
 
 /** handleClick: handle click of column top to play piece */
@@ -151,12 +158,7 @@ function handleClick(evt) {
 
   // switch players
   // TODO: switch currPlayer 1 <-> 2
-  if(currPlayer === "red"){
-    currPlayer = "blue";
-  }
-  else {
-    currPlayer = "red";
-  }
+  currPlayer = currPlayer === "red"? "blue": "red";
 }
 
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
@@ -169,9 +171,23 @@ function checkForWin() {
    * currPlayer
    */
   function _win(cells) {
-
-    // TODO: Check four cells to see if they're all legal & all color of current
-    // player
+    //check to make sure all cells are legal
+    for(let coords of cells){
+      let y = coords[0];
+      let x = coords[1];
+      if( y > HEIGHT-1 || x > WIDTH-1 ){
+        return false;
+      }
+    }
+    //check to see that all match current player
+    for(let coords of cells){
+      let y = coords[0];
+      let x = coords[1];
+      if( board[y][x] !== currPlayer ){
+        return false
+      }
+    }
+    return true;
 
   }
 
